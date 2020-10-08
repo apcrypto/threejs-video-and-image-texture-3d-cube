@@ -68,7 +68,7 @@ function onUpdate() {
 }
 // on update keep track of cube position
 var position = { x: 0.0, y: 0.0 };
-
+// define tweens and easing
 var tweenToPosOne = new TWEEN.Tween(cube.rotation)
   .to({ x: 0.0, y: 1.56 }, 3000)
   .easing(TWEEN.Easing.Quartic.InOut)
@@ -85,32 +85,32 @@ var tweenToPosFour = new TWEEN.Tween(cube.rotation)
   .to({ x: 0.0, y: 6.28 }, 3000)
   .easing(TWEEN.Easing.Quartic.InOut)
   .onUpdate(onUpdate);
-
+// chain tweens together in the relevant order
 tweenToPosOne.chain(tweenToPosTwo);
 tweenToPosTwo.chain(tweenToPosThree);
 tweenToPosThree.chain(tweenToPosFour);
 tweenToPosFour.chain(tweenToPosOne);
-
+// start tweens
 tweenToPosOne.start();
-
+// add soft white light to scene
 light = new THREE.AmbientLight("rgb(255,255,255)"); // soft white light
 scene.add(light);
-
+// add resize event listener to window
 window.addEventListener("resize", onResize, false);
-
+// set new size on resize
 function onResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
+// animate scene
 function animate() {
   requestAnimationFrame(animate);
   TWEEN.update();
   render();
 }
-
+// render scene
 function render() {
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
     video.play();
